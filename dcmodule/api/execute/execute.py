@@ -54,7 +54,7 @@ DEFAULT_PREFIX = ["python3"]
 DEFAULT_SUFFIX = []
 
 
-def execute_dcmodule(script: str, stdin: str, stdout: str,
+def execute_dcmodule(script: str, stdin: str, stdout: str or None,
                      prefix: list = None, suffix: list = None,
                      encoding=None, workdir=None, user=None, group=None):
     """
