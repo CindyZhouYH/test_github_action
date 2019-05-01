@@ -3,7 +3,7 @@ import os
 import subprocess
 from tempfile import NamedTemporaryFile
 
-from pysystem import SystemGroup, SystemUser
+from pysystem import SystemGroup, SystemUser, chown
 
 from .exception import InvalidReturnCodeException, InvalidOutputFormatException
 
@@ -83,7 +83,11 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
     if stdin is not None:
         with NamedTemporaryFile(delete=False) as _file:
             _file.write((str(stdin)).encode())
-            _stdin_filename = _file.name
+            _stdin_filename = os.path.abspath(_file.name)
+            if user or group:
+                _user = str(user) if user else None
+                _group = str(group) if group else None
+                chown(_stdin_filename, _user, _group)
         args += ["--stdin_file", _stdin_filename]
     else:
         _stdin_filename = None
@@ -91,7 +95,11 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
     if stdout is not None:
         with NamedTemporaryFile(delete=False) as _file:
             _file.write((str(stdout)).encode())
-            _stdout_filename = _file.name
+            _stdout_filename = os.path.abspath(_file.name)
+            if user or group:
+                _user = str(user) if user else None
+                _group = str(group) if group else None
+                chown(_stdout_filename, _user, _group)
         args += ["--stdout_file", _stdout_filename]
     else:
         _stdout_filename = None
@@ -104,9 +112,11 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
         group=group
     )
 
-    if _stdin_filename and os.path.exists(_stdin_filename):
+    if _stdin_filename and os.path.exists(_stdin_filename):  # 清除输入临时文件
+        chown(_stdin_filename, SystemUser.current().name, SystemGroup.current().name)
         os.remove(_stdin_filename)
-    if _stdout_filename and os.path.exists(_stdout_filename):
+    if _stdout_filename and os.path.exists(_stdout_filename):  # 清除输出临时文件
+        chown(_stdout_filename, SystemUser.current().name, SystemGroup.current().name)
         os.remove(_stdout_filename)
 
     try:
