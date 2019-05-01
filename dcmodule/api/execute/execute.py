@@ -1,5 +1,7 @@
 import json
+import os
 import subprocess
+from tempfile import NamedTemporaryFile
 
 from pysystem import SystemGroup, SystemUser
 
@@ -73,10 +75,23 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
     prefix = [str(_item) for _item in (prefix or DEFAULT_PREFIX)]
     suffix = [str(_item) for _item in (suffix or DEFAULT_SUFFIX)]
     args = prefix + [str(script)] + suffix
+
     if stdin is not None:
-        args += ["--stdin", str(stdin)]
+        with NamedTemporaryFile(delete=False) as _file:
+            _file.write((str(stdin)).encode())
+            _stdin_filename = _file.name
+        args += ["--stdin_file", _stdin_filename]
+    else:
+        _stdin_filename = None
+
     if stdout is not None:
-        args += ["--stdout", str(stdout)]
+        with NamedTemporaryFile(delete=False) as _file:
+            _file.write((str(stdout)).encode())
+            _stdout_filename = _file.name
+        args += ["--stdout_file", _stdout_filename]
+    else:
+        _stdout_filename = None
+
     _stdout = _execute(
         args=args,
         encoding=encoding,
@@ -84,6 +99,11 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
         user=user,
         group=group
     )
+
+    if _stdin_filename and os.path.exists(_stdin_filename):
+        os.remove(_stdin_filename)
+    if _stdout_filename and os.path.exists(_stdout_filename):
+        os.remove(_stdout_filename)
 
     try:
         _json = json.loads(_stdout)

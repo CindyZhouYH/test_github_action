@@ -1,3 +1,4 @@
+import codecs
 import getopt
 import sys
 from contextlib import contextmanager
@@ -10,15 +11,18 @@ def parse_from_args(args=None):
     :return: stdin, stdout
     """
     args = args or sys.argv
-    opts, args = getopt.getopt(args[1:], "", ["stdin=", "stdout="])
+    opts, args = getopt.getopt(args[1:], "", ["stdin_file=", "stdout_file="])
 
     _stdin = None
     _stdout = None
     for _key, _value in opts:
-        if _key == "--stdin":
-            _stdin = _value
-        elif _key == "--stdout":
-            _stdout = _value
+        if _key == "--stdin_file":
+            with codecs.open(_value, "r") as _file:
+                _stdin = _file.read()
+
+        elif _key == "--stdout_file":
+            with codecs.open(_value, "r") as _file:
+                _stdout = _file.read()
 
     return _stdin, _stdout
 
