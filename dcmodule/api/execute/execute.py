@@ -49,7 +49,11 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
     if _return_code == 0:
         return _stdout.decode(encoding or DEFAULT_ENCODING)
     else:
-        raise InvalidReturnCodeException(_return_code)
+        raise InvalidReturnCodeException(
+            return_code=_return_code,
+            stdout=_stdout.decode(encoding or DEFAULT_ENCODING),
+            stderr=_stderr.decode(encoding or DEFAULT_ENCODING),
+        )
 
 
 DEFAULT_PREFIX = ["python3"]

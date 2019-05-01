@@ -25,12 +25,16 @@ class InvalidReturnCodeException(ExecuteDataCheckException):
     非法返回值异常
     """
 
-    def __init__(self, return_code):
+    def __init__(self, return_code, stdout=None, stderr=None):
         """
         构造函数
         :param return_code: 返回值
+        :param stdout: 标准输出内容
+        :param stderr: 标准异常内容
         """
         self.__return_code = return_code
+        self.__stdout = stdout
+        self.__stderr = stderr
         super().__init__("Invalid return code - %s." % self.__return_code)
 
     @property
@@ -40,6 +44,22 @@ class InvalidReturnCodeException(ExecuteDataCheckException):
         :return: 返回值
         """
         return self.__return_code
+
+    @property
+    def stdout(self):
+        """
+        获取输出信息
+        :return: 输出信息
+        """
+        return self.__stdout
+
+    @property
+    def stderr(self):
+        """
+        获取异常信息
+        :return: 异常信息
+        """
+        return self.__stderr
 
 
 class InvalidOutputFormatException(ExecuteDataCheckException):
