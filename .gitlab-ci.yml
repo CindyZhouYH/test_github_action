@@ -6,14 +6,13 @@ stages:
 
 variables:
   MIN_UNITTEST_COVERAGE: 90
-  ENTRANCE_FINDER_RELEASE_URL: '${RELEASE_URL}/entrance-finder/entrance-finder-{version}-jar-with-dependencies.jar'
+  ENTRANCE_FINDER_RELEASE_URL: '${RELEASE_URL}/dcmodule/dcmodule-{version}.jar'
   TWINE_REPOSITORY: pypi
   OSS_NAME: oss
   OSS_RELEASE_ROOT: ${OSS_NAME}/releases/${CI_PROJECT_NAME}
   OSS_DEV_ROOT: ${OSS_NAME}/dev/${CI_PROJECT_NAME}
   DEMO_ROOT: demo
-  SIMPLE_DEMO_PATH: ${DEMO_ROOT}/demo_program
-  REAL_DEMO_PATH: ${DEMO_ROOT}/test_real_program
+  DEMO_PATH: ${DEMO_ROOT}/demo_program
 
 before_script:
   - pip config set global.index-url "https://${PYPI_USERNAME}:${PYPI_PASSWORD}@${PYPI_HOST}/simple"
@@ -32,26 +31,20 @@ demo_development:
   stage: demo
   script:
     - pip3 install -e .
-    - pyentrance_dir=$(pip3 show pyentrance | grep Location | cut -c 11-)/pyentrance
-      && tree -a ${pyentrance_dir}
+    - dcmodule_dir=$(pip3 show pyentrance | grep Location | cut -c 11-)/dcmodule
+      && tree -a ${dcmodule_dir}
     - cd ${DEMO_ROOT}
-    - python3 -c "from pyentrance import *;print(entrance_finder_version_information);"
-    - python3 -c "from pyentrance import *;print(entrance_finder_version);"
-    - python3 -c "from pyentrance import *;print(entrance_finder_git_commit_id);"
-    - python3 -c "from pyentrance import *;print(entrance_finder_build_time);"
+    - python3 -c "from dcmodule import *;print(version);"
     - cd ..
 
 demo_production:
   stage: demo
   script:
     - pip3 install .
-    - pyentrance_dir=$(pip3 show pyentrance | grep Location | cut -c 11-)/pyentrance
-      && tree -a ${pyentrance_dir}
+    - dcmodule_dir=$(pip3 show pyentrance | grep Location | cut -c 11-)/dcmodule
+      && tree -a ${dcmodule_dir}
     - cd ${DEMO_ROOT}
-    - python3 -c "from pyentrance import *;print(entrance_finder_version_information);"
-    - python3 -c "from pyentrance import *;print(entrance_finder_version);"
-    - python3 -c "from pyentrance import *;print(entrance_finder_git_commit_id);"
-    - python3 -c "from pyentrance import *;print(entrance_finder_build_time);"
+    - python3 -c "from dcmodule import *;print(version);"
     - cd ..
 
 unit_test_in_3.5.2:
