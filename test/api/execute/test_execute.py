@@ -9,7 +9,7 @@ class TestException:
 
     def test_execute_dcmodule_1(self):
         _success, _message, _data = execute_dcmodule(
-            "test_main.py",
+            os.path.abspath(file) + "/test_main.py",
             stdin="input.txt",
             stdout="output.txt",
         )
