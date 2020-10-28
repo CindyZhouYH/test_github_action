@@ -6,7 +6,7 @@ from dcmodule.configs import package_version as _version
 
 _package_name = "dcmodule"
 _requires = [
-    "pysystem", 'pytest'
+
 ]
 setup(
     name=_package_name,

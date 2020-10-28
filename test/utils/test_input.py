@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from dcmodule.utils.input import parse_from_args, load_with_args
 
@@ -5,9 +7,15 @@ from dcmodule.utils.input import parse_from_args, load_with_args
 @pytest.mark.unittest
 class TestInputParse:
     def test_parse_from_args_has(self):
-        inputList1 = ["..\\testfile\\test_main.py",
-                      "--stdin=..\\testfile\\input.txt",
-                      "--stdout=..\\testfile\\output.txt"]
+        file = os.path.dirname(__file__)
+        """
+        inputList1 = ["/testfile/test_main.py",
+                      "--stdin=./testfile/input.txt",
+                      "--stdout=./testfile/output.txt"]
+                      """
+        inputList1 = [os.path.abspath(file)+"/test_main.py",
+                      "--stdin="+os.path.abspath(file)+"/input.txt",
+                      "--stdout="+os.path.abspath(file)+"/output.txt"]
         (out1, out2) = parse_from_args(inputList1)
         assert out1 is not None
         assert out2 is not None

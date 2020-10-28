@@ -48,14 +48,14 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
     )
     _stdout, _stderr = _process.communicate()
     _return_code = _process.returncode
-    if _return_code == 0:
-        return _stdout.decode(encoding or DEFAULT_ENCODING)
-    else:
-        raise InvalidReturnCodeException(
-            return_code=_return_code,
-            stdout=_stdout.decode(encoding or DEFAULT_ENCODING),
-            stderr=_stderr.decode(encoding or DEFAULT_ENCODING),
-        )
+    #if _return_code == 0:
+    return _stdout.decode(encoding or DEFAULT_ENCODING)
+    #else:
+     #   raise InvalidReturnCodeException(
+     #       return_code=_return_code,
+     #       stdout=_stdout.decode(encoding or DEFAULT_ENCODING),
+     #       stderr=_stderr.decode(encoding or DEFAULT_ENCODING),
+     #   )
 
 
 DEFAULT_PREFIX = ["python3"]
