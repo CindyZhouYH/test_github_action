@@ -22,30 +22,6 @@ before_script:
   - curl -o /usr/bin/mc "${RELEASE_URL}/mc" && chmod +x /usr/bin/mc
   - mc --version
   - mc config host add ${OSS_NAME} "${OSS_URL}" "${OSS_ACCESS_ID}" "${OSS_ACCESS_TOKEN}"
-  - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT}
-    && for f in $(mc ls ${OSS_DEV_ROOT}/ | awk '{print $5}'); do mc cp ${OSS_DEV_ROOT}/$f $f; done
-    && for f in *.tar.gz; do tar -zxvf $f; done
-    && cd .. && tree -a ${DEMO_ROOT}
-
-demo_development:
-  stage: demo
-  script:
-    - pip3 install -e .
-    - dcmodule_dir=$(pip3 show pyentrance | grep Location | cut -c 11-)/dcmodule
-      && tree -a ${dcmodule_dir}
-    - cd ${DEMO_ROOT}
-    - python3 -c "from dcmodule import *;print(version);"
-    - cd ..
-
-demo_production:
-  stage: demo
-  script:
-    - pip3 install .
-    - dcmodule_dir=$(pip3 show pyentrance | grep Location | cut -c 11-)/dcmodule
-      && tree -a ${dcmodule_dir}
-    - cd ${DEMO_ROOT}
-    - python3 -c "from dcmodule import *;print(version);"
-    - cd ..
 
 unit_test_in_3.5.2:
   stage: unit_test
@@ -53,7 +29,7 @@ unit_test_in_3.5.2:
   script:
     - pip3 install -e .
     - pytest --version
-    - pytest ./test --cov-report term-missing --cov=./pyentrance -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
+    - pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
 
 unit_test_in_3.6.3:
   stage: unit_test
@@ -61,7 +37,7 @@ unit_test_in_3.6.3:
   script:
     - pip3 install -e .
     - pytest --version
-    - pytest ./test --cov-report term-missing --cov=./pyentrance -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
+    - pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
 
 unit_test_in_3.7.6:
   stage: unit_test
@@ -69,7 +45,7 @@ unit_test_in_3.7.6:
   script:
     - pip3 install -e .
     - pytest --version
-    - pytest ./test --cov-report term-missing --cov=./pyentrance -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
+    - pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
 
 unit_test_in_3.8.1:
   stage: unit_test
@@ -77,4 +53,4 @@ unit_test_in_3.8.1:
   script:
     - pip3 install -e .
     - pytest --version
-    - pytest ./test --cov-report term-missing --cov=./pyentrance -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
+    - pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
