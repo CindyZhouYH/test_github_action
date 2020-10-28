@@ -22,5 +22,10 @@ setup(
         'pytest-cov',
         'pytest-mock',
     ],
+    entry_points={
+        'console_scripts': [
+            'dcmodule=dcmodule.entrance.cli:cli'
+        ]
+    },
     include_package_data=True
 )

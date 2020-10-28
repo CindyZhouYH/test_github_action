@@ -3,12 +3,11 @@ from dcmodule.api.execute.exception import InvalidReturnCodeException,InvalidOut
 import pytest
 from dcmodule.api.execute.execute import execute_dcmodule,_execute
 
-
+file = os.path.dirname(__file__)
 @pytest.mark.unittest
 class TestException:
 
-    def test_execute_dcmodule(self):
-        file = os.path.dirname(__file__)
+    def test_execute_dcmodule_1(self):
         _success, _message, _data = execute_dcmodule(
             "test_main.py",
             stdin="input.txt",
@@ -18,6 +17,7 @@ class TestException:
         assert _message is not None
         assert _data is not None
 
+    def test_execute_dcmodule_2(self):
         _success, _message, _data = execute_dcmodule(
             os.path.abspath(file) + "/test_main.py",
             stdin = None,
@@ -27,6 +27,7 @@ class TestException:
         assert _message is not None
         assert _data is not None
 
+    def test_execute_dcmodule_3(self):
         try:
             _success, _message, _data = execute_dcmodule(
                 "not_exist.py",
