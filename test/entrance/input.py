@@ -1,21 +1,9 @@
 import codecs
 import getopt
 import sys
-import click
-from click.core import Option, Context
 from contextlib import contextmanager
 
-"""
-@click.command(context_settings=CONTEXT_SETTINGS)
-@click.argument('--stdin', nargs=-1, type=click.File('rb'))
-@click.argument('--stdout', nargs=-1, type=click.File('rb'))
-def parse_from_args(stdin, stdout):
-    print(stdin.read())
-    print(stdout.read())
-    return stdin.read(), stdout.read()
 
-
-"""
 def parse_from_args(args=None):
    
     args = args or sys.argv
