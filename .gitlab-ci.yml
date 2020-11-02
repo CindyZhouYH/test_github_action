@@ -15,8 +15,6 @@ variables:
   OSS_NAME: oss
   OSS_RELEASE_ROOT: ${OSS_NAME}/releases/${CI_PROJECT_NAME}
   OSS_DEV_ROOT: ${OSS_NAME}/dev/${CI_PROJECT_NAME}
-  DEMO_ROOT: demo
-  DEMO_PATH: ${DEMO_ROOT}/demo_program
 
 before_script:
   - pip config set global.index-url "https://${PYPI_USERNAME}:${PYPI_PASSWORD}@${PYPI_HOST}/simple"
