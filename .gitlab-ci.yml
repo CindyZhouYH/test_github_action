@@ -148,7 +148,7 @@ package_test_in_3.6.3:
     - tree -a build dist
     - pip3 install $(ls dist/*.whl)
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-    && cat test_version.txt | grep "${version}"
+      && cat test_version.txt | grep "${version}"
     - dcmodule -v
 
 package_test_in_3.7.6:
@@ -163,7 +163,7 @@ package_test_in_3.7.6:
     - tree -a build dist
     - pip3 install $(ls dist/*.whl)
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-    && cat test_version.txt | grep "${version}"
+      && cat test_version.txt | grep "${version}"
     - dcmodule -v
 
 package_test_in_3.8.1:
@@ -178,5 +178,5 @@ package_test_in_3.8.1:
     - tree -a build dist
     - pip3 install $(ls dist/*.whl)
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-    && cat test_version.txt | grep "${version}"
+      && cat test_version.txt | grep "${version}"
     - dcmodule -v
