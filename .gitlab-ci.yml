@@ -4,6 +4,8 @@ stages:
   - demo
   - unit_test
   - source_install
+  - package
+  - package_install
 
 variables:
   MIN_UNITTEST_COVERAGE: 90
@@ -103,3 +105,78 @@ source_install_in_3.8.1:
     - python3 -c "from dcmodule import *;print(version);"
     - dcmodule -v
     - cd .. && ls -al
+
+
+package_in_3.5.2:
+  stage: package
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+  script:
+    - python3 setup.py bdist_wheel
+    - ls -al
+    - tree -a build dist
+  artifacts:
+    name: ${CI_PROJECT_NAME}-${CI_JOB_NAME}-${CI_JOB_ID}-${CI_COMMIT_SHA}
+    when: on_success
+    expire_in: 2 hrs
+    paths:
+      - 'dist'
+
+package_test_in_3.5.2:
+  stage: package_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - package_in_3.5.2
+  script:
+    - ls -al
+    - tree -a build dist
+    - pip3 install $(ls dist/*.whl)
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+      && cat test_version.txt | grep "${version}"
+    - dcmodule -v
+
+package_test_in_3.6.3:
+  stage: package_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.6.3-java8
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - package_in_3.5.2
+  script:
+    - ls -al
+    - tree -a build dist
+    - pip3 install $(ls dist/*.whl)
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+    && cat test_version.txt | grep "${version}"
+    - dcmodule -v
+
+package_test_in_3.7.6:
+  stage: package_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.7.6-java8
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - package_in_3.5.2
+  script:
+    - ls -al
+    - tree -a build dist
+    - pip3 install $(ls dist/*.whl)
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+    && cat test_version.txt | grep "${version}"
+    - dcmodule -v
+
+package_test_in_3.8.1:
+  stage: package_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.8.1-java8
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - package_in_3.5.2
+  script:
+    - ls -al
+    - tree -a build dist
+    - pip3 install $(ls dist/*.whl)
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+    && cat test_version.txt | grep "${version}"
+    - dcmodule -v
