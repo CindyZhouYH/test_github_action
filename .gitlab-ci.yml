@@ -6,6 +6,7 @@ stages:
   - source_install
   - package
   - package_install
+  - deploy
 
 variables:
   MIN_UNITTEST_COVERAGE: 90
@@ -180,3 +181,15 @@ package_test_in_3.8.1:
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
       && cat test_version.txt | grep "${version}"
     - dcmodule -v
+
+deploy:
+  stage: deploy
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - package_in_3.5.2
+  script:
+    - twine upload -r "${TWINE_REPOSITORY}" dist/*
+  only:
+    - /^release/.*$/@oo_system/utils/dcmodule
