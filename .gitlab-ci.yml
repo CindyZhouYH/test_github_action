@@ -3,6 +3,7 @@ image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
 stages:
   - demo
   - unit_test
+  - source_install
 
 variables:
   MIN_UNITTEST_COVERAGE: 90
@@ -54,3 +55,55 @@ unit_test_in_3.8.1:
     - pip3 install -e .
     - pytest --version
     - pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=${MIN_UNITTEST_COVERAGE}
+
+source_install_in_3.5.2:
+  stage: source_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+  script:
+    - pip3 install .
+    - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+    - cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule import *;print(version);"
+    - dcmodule -v
+    - dcmodule $(find . -type d -maxdepth 1)
+    - cd .. && ls -al
+
+source_install_in_3.6.3:
+  stage: source_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.6.3-java8
+  script:
+    - pip3 install .
+    - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+    - cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule import *;print(version);"
+    - dcmodule -v
+    - dcmodule $(find . -type d -maxdepth 1)
+    - cd .. && ls -al
+
+source_install_in_3.7.6:
+  stage: source_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.7.6-java8
+  script:
+    - pip3 install .
+    - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+    - cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule import *;print(version);"
+    - dcmodule -v
+    - dcmodule $(find . -type d -maxdepth 1)
+    - cd .. && ls -al
+
+source_install_in_3.8.1:
+  stage: source_install
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.8.1-java8
+  script:
+    - pip3 install .
+    - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
+    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
+    - cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule import *;print(version);"
+    - dcmodule -v
+    - dcmodule $(find . -type d -maxdepth 1)
+    - cd .. && ls -al
