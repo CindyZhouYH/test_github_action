@@ -1,7 +1,6 @@
 image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
 
 stages:
-  - demo
   - unit_test
   - source_install
   - package
@@ -190,4 +189,4 @@ deploy:
   script:
     - twine upload -r "${TWINE_REPOSITORY}" dist/*
   only:
-    - /^release/.*$/@oo_system/utils/dcmodule
+    - /^release/.*$/@oo_system/judge/dcmodule
