@@ -25,10 +25,10 @@ class TestCli:
         assert not result.stderr_bytes
 
     def test_cli_stdin_and_stdout(self):
-        fp = open("input.txt", "w+")
+        fp = open(os.path.abspath(file) + "/input.txt", "w+")
         fp.write("1 2 3")
         fp.close()
-        fp = open("output.txt", "w+")
+        fp = open(os.path.abspath(file) + "/output.txt", "w+")
         fp.write("4 5 6")
         fp.close()
         runner = CliRunner()
@@ -42,7 +42,7 @@ class TestCli:
         assert "stdout" in result.stdout
 
     def test_cli_testfile(self):
-        fp = open("test_main.py", "w+")
+        fp = open(os.path.abspath(file) + "/test_main.py", "w+")
         fp.write("from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" +
                  "\n\twith load_with_args() as _iotuple:\n" +
                  "\t\t_stdin, _stdout = _iotuple\n" +
@@ -57,6 +57,6 @@ class TestCli:
         assert "True" in result.stdout
         assert "Success!" in result.stdout
         assert "This is stdin" in result.stdout
-        os.remove("input.txt")
-        os.remove("output.txt")
-        os.remove("test_main.py")
+        os.remove(os.path.abspath(file) + "/input.txt")
+        os.remove(os.path.abspath(file) + "/output.txt")
+        os.remove(os.path.abspath(file) + "/test_main.py")
