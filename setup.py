@@ -19,7 +19,6 @@ setup(
         'click>=7',
         'colorama>=0.4',
         'prettytable>=1',
-        "pysystem",
     ],
     tests_require=[
         'pytest>=3',

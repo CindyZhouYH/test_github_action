@@ -3,7 +3,6 @@ import os
 import subprocess
 from tempfile import NamedTemporaryFile
 
-from pysystem import SystemGroup, SystemUser, chown
 
 from .exception import InvalidReturnCodeException, InvalidOutputFormatException
 
@@ -25,12 +24,6 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
         """
         切换用户
         """
-
-        if group is not None:
-            SystemGroup.loads(group).apply()
-        if user is not None:
-            SystemUser.loads(user).apply(include_group=not group)
-
 
     def _pre_execute_method():
         """
