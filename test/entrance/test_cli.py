@@ -9,10 +9,9 @@ _INPUT_CONTENT_ = "1 2 3"
 _OUTPUT_CONTENT_ = "4 5 6"
 file = os.path.dirname(__file__)
 
-inputFile = os.path.abspath(file)+"/input.txt"
-outputFile = os.path.abspath(file)+"/output.txt"
-testfile = os.path.abspath(file)+"/testfile.py"
-
+inputFile = os.path.abspath(file) + "/input.txt"
+outputFile = os.path.abspath(file) + "/output.txt"
+testfile = os.path.abspath(file) + "/test_main.py"
 
 
 @pytest.mark.unittest
@@ -26,10 +25,16 @@ class TestCli:
         assert not result.stderr_bytes
 
     def test_cli_stdin_and_stdout(self):
+        fp = open("input.txt", "w+")
+        fp.write("1 2 3")
+        fp.close()
+        fp = open("output.txt", "w+")
+        fp.write("4 5 6")
+        fp.close()
         runner = CliRunner()
         print(inputFile)
         print(outputFile)
-        result = runner.invoke(cli, ["--stdin="+inputFile, "--stdout="+outputFile])
+        result = runner.invoke(cli, ["--stdin=" + inputFile, "--stdout=" + outputFile])
         assert result.exit_code == 0
         assert _INPUT_CONTENT_ in result.stdout
         assert _OUTPUT_CONTENT_ in result.stdout
@@ -37,9 +42,21 @@ class TestCli:
         assert "stdout" in result.stdout
 
     def test_cli_testfile(self):
+        fp = open("test_main.py", "w+")
+        fp.write("from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" +
+                 "\n\twith load_with_args() as _iotuple:\n" +
+                 "\t\t_stdin, _stdout = _iotuple\n" +
+                 "\t\tresult_dump(True, data={\n" +
+                 "\t\t\t\"stdin\": _stdin,\n" +
+                 "\t\t\t\"stdout\": _stdout,\n" +
+                 "\t\t})\n")
+        fp.close()
         runner = CliRunner()
-        result = runner.invoke(cli, ["--testfile="+testfile])
+        result = runner.invoke(cli, ["--testfile=" + testfile])
         assert result.exit_code == 0
         assert "True" in result.stdout
         assert "Success!" in result.stdout
         assert "This is stdin" in result.stdout
+        os.remove("input.txt")
+        os.remove("output.txt")
+        os.remove("test_main.py")
