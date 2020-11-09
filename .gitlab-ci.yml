@@ -104,7 +104,6 @@ source_install_in_3.8.1:
     - dcmodule -v
     - cd .. && ls -al
 
-
 package_in_3.5.2:
   stage: package
   image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8

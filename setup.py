@@ -19,13 +19,14 @@ setup(
         'click>=7',
         'colorama>=0.4',
         'prettytable>=1',
+        "pysystem",
     ],
     tests_require=[
         'pytest>=3',
         'pytest-cov',
         'pytest-mock',
     ],
-include_package_data=True,
+    include_package_data=True,
     entry_points={
         'console_scripts': [
             'dcmodule=dcmodule.entrance.cli:cli'
