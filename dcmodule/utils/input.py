@@ -5,7 +5,11 @@ from contextlib import contextmanager
 
 
 def parse_from_args(args=None):
-   
+    """
+    从命令行参数中解析输入输出值
+    :param args: 命令行参数列表（缺省为自动获取）
+    :return: stdin, stdout
+    """
     args = args or sys.argv
     opts, args = getopt.getopt(args[1:], "", ["stdin_file=", "stdout_file="])
 
@@ -19,6 +23,7 @@ def parse_from_args(args=None):
         elif _key == "--stdout_file":
             with codecs.open(_value, "r") as _file:
                 _stdout = _file.read()
+
     return _stdin, _stdout
 
 
@@ -28,5 +33,5 @@ def load_with_args(args=None):
     with形式加载输入参数
     :param args: 命令行参数列表（缺省为自动获取）
     """
-    _stdin, _stdout = parse_from_args()
+    _stdin, _stdout = parse_from_args(args)
     yield _stdin, _stdout
