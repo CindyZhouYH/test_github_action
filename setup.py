@@ -1,10 +1,18 @@
+import os
 from distutils.core import setup
 
 from setuptools import find_packages
 
-from dcmodule.configs import package_version as _version
+from codecs import open
 
-_package_name = "dcmodule"
+_package_name = 'dcmodule'
+here = os.path.abspath(os.path.dirname(__file__))
+meta = {}
+with open(os.path.join(here, _package_name, 'configs', 'version.py'), 'r', 'utf-8') as f:
+    exec(f.read(), meta)
+
+_version = meta['version']
+
 setup(
     name=_package_name,
     version=_version,
