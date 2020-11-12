@@ -64,8 +64,9 @@ source_install_in_3.5.2:
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
     - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule import *;print(version);"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
     - cd .. && ls -al
 
 source_install_in_3.6.3:
@@ -76,8 +77,9 @@ source_install_in_3.6.3:
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
     - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule import *;print(version);"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
     - cd .. && ls -al
 
 source_install_in_3.7.6:
@@ -88,8 +90,9 @@ source_install_in_3.7.6:
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
     - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule import *;print(version);"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
     - cd .. && ls -al
 
 source_install_in_3.8.1:
@@ -100,8 +103,9 @@ source_install_in_3.8.1:
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
     - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule import *;print(version);"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
     - cd .. && ls -al
 
 package_in_3.5.2:
@@ -131,7 +135,9 @@ package_test_in_3.5.2:
     - pip3 install $(ls dist/*.whl)
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
       && cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
 
 package_test_in_3.6.3:
   stage: package_install
@@ -146,7 +152,9 @@ package_test_in_3.6.3:
     - pip3 install $(ls dist/*.whl)
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
       && cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
 
 package_test_in_3.7.6:
   stage: package_install
@@ -161,7 +169,9 @@ package_test_in_3.7.6:
     - pip3 install $(ls dist/*.whl)
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
       && cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
 
 package_test_in_3.8.1:
   stage: package_install
@@ -176,7 +186,9 @@ package_test_in_3.8.1:
     - pip3 install $(ls dist/*.whl)
     - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
       && cat test_version.txt | grep "${version}"
+    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
     - dcmodule -v
+    - dcmodule --help
 
 deploy:
   stage: deploy
