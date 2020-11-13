@@ -62,9 +62,10 @@ source_install_in_3.5.2:
   script:
     - pip3 install .
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-    - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
+    - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+    - cat test_version.txt | grep "${__VERSION__}"
+    - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+    - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule --help
     - cd .. && ls -al
@@ -75,9 +76,10 @@ source_install_in_3.6.3:
   script:
     - pip3 install .
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-    - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
+    - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+    - cat test_version.txt | grep "${__VERSION__}"
+    - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+    - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule --help
     - cd .. && ls -al
@@ -88,9 +90,10 @@ source_install_in_3.7.6:
   script:
     - pip3 install .
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-    - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
+    - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+    - cat test_version.txt | grep "${__VERSION__}"
+    - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+    - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule --help
     - cd .. && ls -al
@@ -101,9 +104,10 @@ source_install_in_3.8.1:
   script:
     - pip3 install .
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-    - cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
+    - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+    - cat test_version.txt | grep "${__VERSION__}"
+    - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+    - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule --help
     - cd .. && ls -al
@@ -133,9 +137,10 @@ package_test_in_3.5.2:
     - ls -al
     - tree -a build dist
     - pip3 install $(ls dist/*.whl)
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-      && cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
+    - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+      && cat test_version.txt | grep "${__VERSION__}"
+    - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+    - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule --help
 
@@ -148,13 +153,14 @@ package_test_in_3.6.3:
     - package_in_3.5.2
   script:
     - ls -al
-    - tree -a build dist
-    - pip3 install $(ls dist/*.whl)
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-      && cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
-    - dcmodule -v
-    - dcmodule --help
+      - tree -a build dist
+      - pip3 install $(ls dist/*.whl)
+      - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+      && cat test_version.txt | grep "${__VERSION__}"
+      - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+      - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
+      - dcmodule -v
+      - dcmodule --help
 
 package_test_in_3.7.6:
   stage: package_install
@@ -165,13 +171,14 @@ package_test_in_3.7.6:
     - package_in_3.5.2
   script:
     - ls -al
-    - tree -a build dist
-    - pip3 install $(ls dist/*.whl)
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-      && cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
-    - dcmodule -v
-    - dcmodule --help
+      - tree -a build dist
+      - pip3 install $(ls dist/*.whl)
+      - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+      && cat test_version.txt | grep "${__VERSION__}"
+      - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+      - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
+      - dcmodule -v
+      - dcmodule --help
 
 package_test_in_3.8.1:
   stage: package_install
@@ -182,13 +189,14 @@ package_test_in_3.8.1:
     - package_in_3.5.2
   script:
     - ls -al
-    - tree -a build dist
-    - pip3 install $(ls dist/*.whl)
-    - python3 -c "from dcmodule import *;print(version);" | tee test_version.txt
-      && cat test_version.txt | grep "${version}"
-    - python3 -c "from dcmodule.configs.version import version;print(\"VERSION:\"+version);"
-    - dcmodule -v
-    - dcmodule --help
+      - tree -a build dist
+      - pip3 install $(ls dist/*.whl)
+      - python3 -c "from dcmodule import *;print(__VERSION__);" | tee test_version.txt
+      && cat test_version.txt | grep "${__VERSION__}"
+      - python3 -c "from dcmodule.configs.meta import __VERSION__;print(\"VERSION:\"+__VERSION__);"
+      - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
+      - dcmodule -v
+      - dcmodule --help
 
 deploy:
   stage: deploy
