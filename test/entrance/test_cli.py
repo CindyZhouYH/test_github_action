@@ -2,9 +2,9 @@ import pytest
 import os
 from click.testing import CliRunner
 from dcmodule.entrance.cli import cli
-from dcmodule.configs.version import version
+from dcmodule.configs.meta import __VERSION__
+from dcmodule.configs.meta import __TITLE__
 
-_TITLE_ = "Dcmodule"
 _INPUT_CONTENT_ = "1 2 3"
 _OUTPUT_CONTENT_ = "4 5 6"
 file = os.path.dirname(__file__)
@@ -20,8 +20,8 @@ class TestCli:
         runner = CliRunner()
         result = runner.invoke(cli, ["--version"])
         assert result.exit_code == 0
-        assert version in result.stdout
-        assert _TITLE_ in result.stdout
+        assert __VERSION__ in result.stdout
+        assert __TITLE__.capitalize()  in result.stdout
         assert not result.stderr_bytes
 
     def test_cli_stdin_and_stdout(self):

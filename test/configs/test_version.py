@@ -1,9 +1,8 @@
 import pytest
-from dcmodule.configs.version import version, title
-
+from dcmodule.configs.meta import __VERSION__, __TITLE__
 
 @pytest.mark.unittest
 class TestConfigVersion:
     def test_title(self):
-        assert version == "0.2.2"
-        assert title == "dcmodule"
+        assert __VERSION__ == "0.2.3"
+        assert __TITLE__ == "dcmodule"

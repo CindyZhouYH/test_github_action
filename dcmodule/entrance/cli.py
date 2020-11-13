@@ -1,11 +1,8 @@
 from dcmodule import result_dump, execute_dcmodule
-from dcmodule.configs.version import version
+from dcmodule.configs.meta import __VERSION__, __TITLE__
 
 import click
 from click.core import Option, Context
-
-__TITLE__ = "dcmodule"
-__VERSION__ = version
 
 
 # noinspection PyUnusedLocal

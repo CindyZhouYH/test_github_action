@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import sys
 from tempfile import NamedTemporaryFile
 
 
@@ -24,6 +25,7 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
         """
         切换用户
         """
+        # TODO: 加入pysystem依赖， 完善切换用户
 
     def _pre_execute_method():
         """
@@ -83,6 +85,7 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
                 _user = str(user) if user else None
                 _group = str(group) if group else None
                 #chown(_stdin_filename, _user, _group)
+                sys.stderr.write("not support switch user")
         args += ["--stdin_file", _stdin_filename]
     else:
         _stdin_filename = None
@@ -95,6 +98,7 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
                 _user = str(user) if user else None
                 _group = str(group) if group else None
                 #chown(_stdout_filename, _user, _group)
+                sys.stderr.write("not support switch user")
         args += ["--stdout_file", _stdout_filename]
     else:
         _stdout_filename = None
