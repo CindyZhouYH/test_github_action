@@ -119,3 +119,41 @@ python3 test_main.py --stdin="This is stdin." --stdout="This is stdout."
 
 更多关于load_with_args、result_dump的技术细节，可以查看源代码中的文档。
 
+#### 在命令行中使用
+
+运行命令
+
+```
+dcmodule -v
+```
+
+查看版本信息
+
+运行命令
+
+```
+dcmodule --stdin="input.txt" --stdout="output.txt"
+```
+
+得到输出
+
+```
+stdin: This is input content.
+stdout: This is output content.
+```
+
+运行命令
+
+```
+dcmodule --testfile="test_main.py"
+```
+
+得到输出
+
+```
+True
+Success!
+{'stdin': 'This is stdin.\nThis is next line!', 'stdout': 'This is \t\t stdout.'}
+```
+
+更多命令行指令可见--help
