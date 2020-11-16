@@ -15,8 +15,6 @@ with open(os.path.join(here, _package_name, 'configs', 'meta.py'), 'r', 'utf-8')
 _package_version = meta['__VERSION__']
 _package_name = meta['__TITLE__']
 
-sys.stderr.write("without switch user function")
-
 setup(
     name=_package_name,
     version=_package_version,
@@ -46,3 +44,5 @@ setup(
         ]
     },
 )
+
+sys.stderr.write("without switch user function")
