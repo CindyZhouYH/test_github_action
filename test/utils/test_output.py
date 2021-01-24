@@ -1,5 +1,6 @@
 import pytest
-from dcmodule.utils.output import result_generate, result_dump
+
+from dcmodule.utils.output import result_dump, result_generate
 
 
 @pytest.mark.unittest
