@@ -1,5 +1,7 @@
 import pytest
-from dcmodule.configs.meta import __VERSION__, __TITLE__
+
+from dcmodule.configs.meta import __TITLE__, __VERSION__
+
 
 @pytest.mark.unittest
 class TestConfigVersion:
