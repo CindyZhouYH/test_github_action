@@ -1,4 +1,4 @@
-image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2
 
 stages:
   - unit_test
@@ -26,7 +26,7 @@ before_script:
 
 unit_test_in_3.5.2:
   stage: unit_test
-  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2
   script:
     - pip3 install -e .
     - pytest --version
@@ -58,7 +58,7 @@ unit_test_in_3.8.1:
 
 source_install_in_3.5.2:
   stage: source_install
-  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2
   script:
     - pip3 install .
     - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT} && ls -al
@@ -106,7 +106,7 @@ source_install_in_3.8.1:
 
 package_in_3.5.2:
   stage: package
-  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2
   script:
     - python3 setup.py bdist_wheel
     - ls -al
@@ -120,7 +120,7 @@ package_in_3.5.2:
 
 package_test_in_3.5.2:
   stage: package_install
-  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2-java8
+  image: local-registry.inner.buaaoo.top/image-dev/python:3.5.2
   variables:
     GIT_STRATEGY: none
   dependencies:
