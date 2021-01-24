@@ -1,4 +1,4 @@
-from .version import version as package_version
+from .meta import __VERSION__ as package_version
 
 if __name__ == "__main__":
     pass

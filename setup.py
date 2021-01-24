@@ -1,18 +1,48 @@
+import os
+import sys
 from distutils.core import setup
 
 from setuptools import find_packages
 
-from dcmodule.configs import package_version as _version
+from codecs import open
 
 _package_name = "dcmodule"
-_requires = [
-    "pysystem",
-]
+here = os.path.abspath(os.path.dirname(__file__))
+meta = {}
+with open(os.path.join(here, _package_name, 'configs', 'meta.py'), 'r', 'utf-8') as f:
+    exec(f.read(), meta)
+
+_package_version = meta['__VERSION__']
+_package_name = meta['__TITLE__']
+
 setup(
     name=_package_name,
-    version=_version,
+    version=_package_version,
     packages=find_packages(
         include=(_package_name, "%s.*" % _package_name)
     ),
-    install_requires=_requires
+    author=meta['__AUTHOR__'],
+    author_email=meta['__AUTHOR_EMAIL__'],
+    python_requires=">=3.5",
+    install_requires=[
+        'where>=1',
+        'pytz>=2018',
+        'tzlocal>=2',
+        'click>=7',
+        'colorama>=0.4',
+        'prettytable>=1',
+    ],
+    tests_require=[
+        'pytest>=3',
+        'pytest-cov',
+        'pytest-mock',
+    ],
+    include_package_data=True,
+    entry_points={
+        'console_scripts': [
+            'dcmodule=dcmodule.entrance.cli:cli'
+        ]
+    },
 )
+
+sys.stderr.write("without switch user function")
