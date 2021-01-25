@@ -1,10 +1,9 @@
 import os
 import sys
+from codecs import open
 from distutils.core import setup
 
 from setuptools import find_packages
-
-from codecs import open
 
 _package_name = "dcmodule"
 here = os.path.abspath(os.path.dirname(__file__))
@@ -14,6 +13,9 @@ with open(os.path.join(here, _package_name, 'configs', 'meta.py'), 'r', 'utf-8')
 
 _package_version = meta['__VERSION__']
 _package_name = meta['__TITLE__']
+
+print("without switch user function", file=sys.stderr)
+
 
 setup(
     name=_package_name,
@@ -40,4 +42,4 @@ setup(
     },
 )
 
-sys.stderr.write("without switch user function")
+print("without switch user function", file=sys.stderr)
