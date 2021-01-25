@@ -15,7 +15,6 @@ def print_version(ctx: Context, param: Option, value: bool):
 
 _LINE_SEPARATOR_FOR_PRETTY_TABLE = "\n"
 
-
 CONTEXT_SETTINGS = dict(
     help_option_names=['-h', '--help']
 )
@@ -23,22 +22,34 @@ CONTEXT_SETTINGS = dict(
 
 @click.command(context_settings=CONTEXT_SETTINGS, help="Run dcmodule to help check data validity.")
 @click.option('-v', '--version', is_flag=True,
-              callback=print_version, expose_value=False, is_eager=True,
-              help="Show package's version information.")
-@click.option('--stdin', default=None, type=str, help="Input content")
-@click.option('--stdout', default=None, type=str, help="Output content")
-@click.option('--testfile', default=None, type=str, help="data test file")
-def cli(stdin, stdout, testfile):
-    if stdin is not None and stdout is not None and testfile is None:
+              callback=print_version, expose_value=False, is_eager=True, help="Show package's version information.")
+@click.option('-i', '--input', default=None, type=str, help="Input content (Priority above input_file)")
+@click.option('-o', '--output', default=None, type=str,
+              help="Output content (Priority above output_file)")
+@click.option('-if', '--input_file', default=None, type=click.File(), help="Input file")
+@click.option('-of', '--output_file', default=None, type=click.File(), help="Output file")
+@click.option('-tf', '--testfile', default=None, type=str, help="data test file")
+def cli(input, output, input_file, output_file, testfile):
+    in_content = ""
+    out_content = ""
+    if input is not None:
+        in_content = input
+    else:
+        in_content = input_file.read()
+    if output is not None:
+        out_content = output
+    else:
+        out_content = output_file.read()
+    if testfile is None:
         result_dump(True, data={
-            "stdin": stdin,
-            "stdout": stdout,
+            "input": in_content,
+            "output": out_content,
         })
-    if testfile is not None:
+    else:
         _success, _message, _data = execute_dcmodule(
             testfile,
-            stdin=stdin,
-            stdout=stdout,
+            stdin=in_content,
+            stdout=out_content,
         )
         click.echo(_success)
         click.echo(_message)
