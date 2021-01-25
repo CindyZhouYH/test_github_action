@@ -70,10 +70,15 @@ source_install_in_3.5.2:
     - echo -e "\n\twith load_with_args() as _iotuple:\n" >> "test_main.py"
     - echo -e "\t\t_stdin, _stdout = _iotuple\n" >> "test_main.py"
     - echo -e "\t\tresult_dump(True, data={\n" >> "test_main.py"
-    - echo -e "\t\t\t\"stdin\": stdin,\n"  >> "test_main.py"
-    - echo -e "\t\t\t\"stdout\": _stdout,\n"  >> "test_main.py"
+    - echo -e "\t\t\t\"stdin\"" >> "test_main.py"
+    - echo -e "\t\t\t:" >> "test_main.py"
+    - echo -e "\t\t\t\t_stdin,\n"  >> "test_main.py"
+    - echo -e "\t\t\t\"stdout\"" >> "test_main.py"
+    - echo -e "\t\t\t:" >> "test_main.py"
+    - echo -e "\t\t\t\t_stdout,\n"  >> "test_main.py"
     - echo -e "\t\t})\n" >> "test_main.py"
     - cat test_main.py
+    - dcmodule -tf "test_main.py" -i "This is input" -o "This is output"
     - cd .. && ls -al
 
 source_install_in_3.6.3:
