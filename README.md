@@ -121,31 +121,24 @@ python3 test_main.py --stdin="This is stdin." --stdout="This is stdout."
 
 #### 在命令行中使用
 
+##### 查看版本信息
+
 运行命令
 
 ```
 dcmodule -v
 ```
 
-查看版本信息
+即可得到当前版本信息。
+
+##### 调用测试文件
+
+测试文件样例为上文**test_main.py**
 
 运行命令
 
 ```
-dcmodule --stdin="input.txt" --stdout="output.txt"
-```
-
-得到输出
-
-```
-stdin: This is input content.
-stdout: This is output content.
-```
-
-运行命令
-
-```
-dcmodule --testfile="test_main.py"
+dcmodule --testfile="test_main.py" --stdin="This is input" --stdout="This is output"
 ```
 
 得到输出
@@ -153,7 +146,7 @@ dcmodule --testfile="test_main.py"
 ```
 True
 Success!
-{'stdin': 'This is stdin.\nThis is next line!', 'stdout': 'This is \t\t stdout.'}
+{'stdin': 'This is input', 'stdout': 'This is output'}
 ```
 
 更多命令行可见--help

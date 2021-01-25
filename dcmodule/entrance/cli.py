@@ -20,18 +20,20 @@ _LINE_SEPARATOR_FOR_PRETTY_TABLE = "\n"
 @click.option('-v', '--version', is_flag=True,
               callback=print_version, expose_value=False, is_eager=True,
               help="Show package's version information.")
-@click.option('--stdin', default=None, type=click.File())
-@click.option('--stdout', default=None, type=click.File())
+@click.option('--stdin', default=None, type=str)
+@click.option('--stdout', default=None, type=str)
 @click.option('--testfile', default=None, type=str)
 def cli(stdin, stdout, testfile):
-    if stdin is not None and stdout is not None:
-        click.echo("stdin:" + stdin.read())
-        click.echo("stdout:" + stdout.read())
+    if stdin is not None and stdout is not None and testfile is None:
+        result_dump(True, data={
+            "stdin": stdin,
+            "stdout": stdout,
+        })
     if testfile is not None:
         _success, _message, _data = execute_dcmodule(
             testfile,
-            stdin="This is stdin.\r\nThis is next line!",
-            stdout="This is \t\t stdout.",
+            stdin=stdin,
+            stdout=stdout,
         )
         click.echo(_success)
         click.echo(_message)
