@@ -53,8 +53,8 @@ class TestCli:
             fp.close()
         runner = CliRunner()
         result = runner.invoke(cli,
-                               ["--testfile=" + testfile, "--input_file=" + _INPUT_FILE_,
-                                "--output_file=" + _OUTPUT_FILE_])
+                               ["--testfile=" + testfile, "--input_file=" + inputfile,
+                                "--output_file=" + outputfile])
         assert result.exit_code == 0
         assert "True" in result.stdout
         assert "Success!" in result.stdout
