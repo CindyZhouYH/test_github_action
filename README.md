@@ -135,10 +135,12 @@ dcmodule -v
 
 测试文件样例为上文**test_main.py**
 
+若在命令中直接指定输入输出：
+
 运行命令
 
 ```
-dcmodule --testfile="test_main.py" --stdin="This is input" --stdout="This is output"
+dcmodule --testfile="test_main.py" --input="This is input" --output="This is output"
 ```
 
 得到输出
@@ -149,4 +151,32 @@ Success!
 {'stdin': 'This is input', 'stdout': 'This is output'}
 ```
 
-更多命令行可见--help
+若在命令中指定含有输入输出的文件：
+
+运行命令
+
+```
+dcmodule --testfile="test_main.py" --input_file="input.txt" --output_file="output.txt"
+```
+
+得到输出
+
+```
+True
+Success!
+{'stdin': 'input.txt中的内容', 'stdout': 'output.txt中的内容'}
+```
+
+由于同时支持直接输入内容和文件读取，为防止冲突，指定优先级：
+
+input > input_file， output > output_file​
+
+##### 查看帮助
+
+运行命令
+
+```
+dcmodule -h
+```
+
+可查看帮助。包含相关参数、shortcut等详细描述。
