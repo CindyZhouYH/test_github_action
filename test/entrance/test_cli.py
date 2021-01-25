@@ -9,9 +9,13 @@ from dcmodule.entrance.cli import cli
 
 _INPUT_CONTENT_ = "1 2 3"
 _OUTPUT_CONTENT_ = "4 5 6"
+_INPUT_FILE_ = "input.txt"
+_OUTPUT_FILE_ = "output.txt"
 file = os.path.dirname(__file__)
 
 testfile = os.path.abspath(file) + "/test_main.py"
+inputfile = os.path.abspath(file) + "/input.txt"
+outputfile = os.path.abspath(file) + "/output.txt"
 
 
 @pytest.mark.unittest
@@ -26,13 +30,13 @@ class TestCli:
 
     def test_cli_stdin_and_stdout(self):
         runner = CliRunner()
-        result = runner.invoke(cli, ["--stdin=" + _INPUT_CONTENT_, "--stdout=" + _OUTPUT_CONTENT_])
+        result = runner.invoke(cli, ["--input=" + _INPUT_CONTENT_, "--output=" + _OUTPUT_CONTENT_])
         assert result.exit_code == 0
         assert _INPUT_CONTENT_ in result.stdout
         assert _OUTPUT_CONTENT_ in result.stdout
 
     def test_cli_testfile(self):
-        with open(os.path.abspath(file) + "/test_main.py", "w+") as fp:
+        with open(testfile, "w+") as fp:
             fp.write("from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" +
                      "\n\twith load_with_args() as _iotuple:\n" +
                      "\t\t_stdin, _stdout = _iotuple\n" +
@@ -41,11 +45,20 @@ class TestCli:
                      "\t\t\t\"stdout\": _stdout,\n" +
                      "\t\t})\n")
             fp.close()
-            runner = CliRunner()
-            result = runner.invoke(cli,
-                                   ["--testfile=" + testfile, "--stdin=" + _INPUT_CONTENT_, "--stdout=" + _OUTPUT_CONTENT_])
-            assert result.exit_code == 0
-            assert "True" in result.stdout
-            assert "Success!" in result.stdout
-            assert _INPUT_CONTENT_ in result.stdout
-            os.remove(os.path.abspath(file) + "/test_main.py")
+        with open(inputfile, "w+") as fp:
+            fp.write(_INPUT_CONTENT_)
+            fp.close()
+        with open(outputfile, "w+") as fp:
+            fp.write(_OUTPUT_CONTENT_)
+            fp.close()
+        runner = CliRunner()
+        result = runner.invoke(cli,
+                               ["--testfile=" + testfile, "--input_file=" + _INPUT_FILE_,
+                                "--output_file=" + _OUTPUT_FILE_])
+        assert result.exit_code == 0
+        assert "True" in result.stdout
+        assert "Success!" in result.stdout
+        assert _INPUT_CONTENT_ in result.stdout
+        os.remove(testfile)
+        os.remove(inputfile)
+        os.remove(outputfile)
