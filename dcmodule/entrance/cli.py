@@ -16,13 +16,18 @@ def print_version(ctx: Context, param: Option, value: bool):
 _LINE_SEPARATOR_FOR_PRETTY_TABLE = "\n"
 
 
-@click.command()
+CONTEXT_SETTINGS = dict(
+    help_option_names=['-h', '--help']
+)
+
+
+@click.command(context_settings=CONTEXT_SETTINGS, help="Run dcmodule to help check data validity.")
 @click.option('-v', '--version', is_flag=True,
               callback=print_version, expose_value=False, is_eager=True,
               help="Show package's version information.")
-@click.option('--stdin', default=None, type=str)
-@click.option('--stdout', default=None, type=str)
-@click.option('--testfile', default=None, type=str)
+@click.option('--stdin', default=None, type=str, help="Input content")
+@click.option('--stdout', default=None, type=str, help="Output content")
+@click.option('--testfile', default=None, type=str, help="data test file")
 def cli(stdin, stdout, testfile):
     if stdin is not None and stdout is not None and testfile is None:
         result_dump(True, data={
