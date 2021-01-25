@@ -1,8 +1,9 @@
 import click
 from click.core import Context, Option
 
-from dcmodule import execute_dcmodule, result_dump
-from dcmodule.configs.meta import __TITLE__, __VERSION__
+from ..api.execute.execute import execute_dcmodule
+from ..configs.meta import __TITLE__, __VERSION__
+from ..utils.output import result_dump
 
 
 # noinspection PyUnusedLocal
