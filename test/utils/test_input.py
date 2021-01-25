@@ -1,7 +1,8 @@
 import os
 
 import pytest
-from dcmodule.utils.input import parse_from_args, load_with_args
+
+from dcmodule.utils.input import parse_from_args
 
 file = os.path.dirname(__file__)
 @pytest.mark.unittest

@@ -1,6 +1,7 @@
 import pytest
-from dcmodule.api.execute.exception import ExecuteDataCheckException, InvalidReturnCodeException, \
-    InvalidOutputFormatException
+
+from dcmodule.api.execute.exception import ExecuteDataCheckException, InvalidOutputFormatException, \
+    InvalidReturnCodeException
 
 
 @pytest.mark.unittest

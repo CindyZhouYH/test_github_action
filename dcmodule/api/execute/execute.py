@@ -4,8 +4,7 @@ import subprocess
 import sys
 from tempfile import NamedTemporaryFile
 
-
-from .exception import InvalidReturnCodeException, InvalidOutputFormatException
+from .exception import InvalidOutputFormatException
 
 DEFAULT_ENCODING = "utf8"
 
