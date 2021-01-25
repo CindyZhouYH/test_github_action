@@ -17,13 +17,17 @@ class TestException:
 
     def test_execute_dcmodule_1(self):
         with open(testfile_dir, "w+") as fp:
-            fp.write("""from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":
-                     \n\twith load_with_args() as _iotuple:\n
-                     \t\t_stdin, _stdout = _iotuple\n
-                     \t\tresult_dump(True, data={\n
-                     \t\t\t\"stdin\": _stdin,\n
-                     \t\t\t\"stdout\": _stdout,\n
-                     \t\t})\n""")
+            fp.write("""
+                    from dcmodule import load_with_args, result_dump
+                    if __name__ == "__main__":
+                        with load_with_args() as _iotuple:
+                            _stdin, _stdout = _iotuple
+                            result_dump(True, data={
+                                "stdin": _stdin,
+                                "stdout": _stdout,
+                            })
+
+                     """)
             fp.close()
         with open(input_dir, "w+") as fp:
             fp.write("1 2 3")
@@ -45,13 +49,17 @@ class TestException:
 
     def test_execute_dcmodule_2(self):
         with open(testfile_dir, "w+") as fp:
-            fp.write("""from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":
-                     \n\twith load_with_args() as _iotuple:\n
-                     \t\t_stdin, _stdout = _iotuple\n
-                     \t\tresult_dump(True, data={\n
-                     \t\t\t\"stdin\": _stdin,\n
-                     \t\t\t\"stdout\": _stdout,\n
-                     \t\t})\n""")
+            fp.write("""
+                                from dcmodule import load_with_args, result_dump
+                                if __name__ == "__main__":
+                                    with load_with_args() as _iotuple:
+                                        _stdin, _stdout = _iotuple
+                                        result_dump(True, data={
+                                            "stdin": _stdin,
+                                            "stdout": _stdout,
+                                        })
+
+                                 """)
             fp.close()
         with open(input_dir, "w+") as fp:
             fp.write("1 2 3")
