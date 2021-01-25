@@ -4,11 +4,16 @@ import pytest
 
 from dcmodule.utils.input import parse_from_args
 
-file = os.path.dirname(__file__)
+here = os.path.abspath(os.path.dirname(__file__))
+testfile_dir = os.path.join(here, 'test_main.py')
+input_dir = os.path.join(here, 'input.txt')
+output_dir = os.path.join(here, 'output.txt')
+
+
 @pytest.mark.unittest
 class TestInputParse:
     def test_parse_from_args_has(self):
-        with open(os.path.abspath(file) + "/test_main.py", "w+") as fp:
+        with open(testfile_dir, "w+") as fp:
             fp.write("""from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":
                      \n\twith load_with_args() as _iotuple:\n
                      \t\t_stdin, _stdout = _iotuple\n
@@ -17,21 +22,21 @@ class TestInputParse:
                      \t\t\t\"stdout\": _stdout,\n
                      \t\t})\n""")
             fp.close()
-        with open(os.path.abspath(file) + "/input.txt", "w+") as fp:
+        with open(input_dir, "w+") as fp:
             fp.write("1 2 3")
             fp.close()
-        with open(os.path.abspath(file) + "/output.txt", "w+") as fp:
+        with open(output_dir, "w+") as fp:
             fp.write("4 5 6")
             fp.close()
-        inputList1 = [os.path.abspath(file)+"/test_main.py",
-                      "--stdin="+os.path.abspath(file)+"/input.txt",
-                      "--stdout="+os.path.abspath(file)+"/output.txt"]
+        inputList1 = [testfile_dir,
+                      "--stdin=" + input_dir,
+                      "--stdout=" + output_dir]
         (out1, out2) = parse_from_args(inputList1)
         assert out1 is not None
         assert out2 is not None
-        os.remove(os.path.abspath(file) + "/input.txt")
-        os.remove(os.path.abspath(file) + "/output.txt")
-        os.remove(os.path.abspath(file) + "/test_main.py")
+        os.remove(testfile_dir)
+        os.remove(input_dir)
+        os.remove(output_dir)
 
     def test_parse_from_args_null(self):
         inputList2 = [""]

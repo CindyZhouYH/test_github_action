@@ -11,11 +11,11 @@ _INPUT_CONTENT_ = "1 2 3"
 _OUTPUT_CONTENT_ = "4 5 6"
 _INPUT_FILE_ = "input.txt"
 _OUTPUT_FILE_ = "output.txt"
-file = os.path.dirname(__file__)
 
-testfile = os.path.abspath(file) + "/test_main.py"
-inputfile = os.path.abspath(file) + "/input.txt"
-outputfile = os.path.abspath(file) + "/output.txt"
+here = os.path.abspath(os.path.dirname(__file__))
+testfile = os.path.join(here, 'test_main.py')
+inputfile = os.path.join(here, _INPUT_FILE_)
+outputfile = os.path.join(here, _OUTPUT_FILE_)
 
 
 @pytest.mark.unittest
