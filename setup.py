@@ -41,5 +41,3 @@ setup(
         ]
     },
 )
-
-print("without switch user function", file=sys.stderr)
