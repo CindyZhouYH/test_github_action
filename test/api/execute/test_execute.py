@@ -10,14 +10,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 testfile_dir = os.path.join(here, 'test_main.py')
 input_dir = os.path.join(here, 'input.txt')
 output_dir = os.path.join(here, 'output.txt')
-
-
-@pytest.mark.unittest
-class TestException:
-
-    def test_execute_dcmodule_1(self):
-        with open(testfile_dir, "w+") as fp:
-            fp.write("""
+testfile_content = """
 from dcmodule import load_with_args, result_dump
 if __name__ == "__main__":
     with load_with_args() as _iotuple:
@@ -26,7 +19,14 @@ if __name__ == "__main__":
             "stdin": _stdin,
             "stdout": _stdout,
         })
-                     """)
+"""
+
+@pytest.mark.unittest
+class TestException:
+
+    def test_execute_dcmodule_1(self):
+        with open(testfile_dir, "w+") as fp:
+            fp.write(testfile_content)
             fp.close()
         with open(input_dir, "w+") as fp:
             fp.write("1 2 3")
@@ -48,16 +48,7 @@ if __name__ == "__main__":
 
     def test_execute_dcmodule_2(self):
         with open(testfile_dir, "w+") as fp:
-            fp.write("""
-from dcmodule import load_with_args, result_dump
-if __name__ == "__main__":
-    with load_with_args() as _iotuple:
-        _stdin, _stdout = _iotuple
-        result_dump(True, data={
-            "stdin": _stdin,
-            "stdout": _stdout,
-        })
-                     """)
+            fp.write(testfile_content)
             fp.close()
         with open(input_dir, "w+") as fp:
             fp.write("1 2 3")
