@@ -1,6 +1,6 @@
 import pytest
 
-from dcmodule.api.execute.exception import ExecuteDataCheckException, InvalidOutputFormatException, \
+from dcmodule import ExecuteDataCheckException, InvalidOutputFormatException, \
     InvalidReturnCodeException
 
 

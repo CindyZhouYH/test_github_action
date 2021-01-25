@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from dcmodule.api.execute.exception import InvalidOutputFormatException
-from dcmodule.api.execute.execute import execute_dcmodule
+from dcmodule import InvalidOutputFormatException
+from dcmodule import execute_dcmodule
 
 file = os.path.dirname(__file__)
 here = os.path.abspath(os.path.dirname(__file__))
@@ -20,6 +20,7 @@ if __name__ == "__main__":
             "stdout": _stdout,
         })
 """
+
 
 @pytest.mark.unittest
 class TestException:
