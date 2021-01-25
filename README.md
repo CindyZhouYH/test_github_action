@@ -146,7 +146,7 @@ dcmodule --testfile="test_main.py" --input="This is input" --output="This is out
 或使用shortcut：
 
 ```
-dcmodule -tf "test_main.py" -i "This is input" -o "This is output"
+dcmodule -t "test_main.py" -i "This is input" -o "This is output"
 ```
 
 得到输出
@@ -168,7 +168,7 @@ dcmodule --testfile="test_main.py" --input_file="input.txt" --output_file="outpu
 或使用shortcut：
 
 ```
-dcmodule -tf "test_main.py" -if "input.txt" -of "output.txt"
+dcmodule -t "test_main.py" -I "input.txt" -O "output.txt"
 ```
 
 得到输出

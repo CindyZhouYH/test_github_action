@@ -232,7 +232,7 @@ package_test_in_3.8.1:
     - echo -e "\t\t\t\t_stdout,\n"  >> "test_main.py"
     - echo -e "\t\t})\n" >> "test_main.py"
     - cat test_main.py
-    - dcmodule -tf "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "This is input" -o "This is output"
 
 deploy:
   stage: deploy

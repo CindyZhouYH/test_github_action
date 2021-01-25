@@ -26,9 +26,9 @@ CONTEXT_SETTINGS = dict(
 @click.option('-i', '--input', default=None, type=str, help="Input content (Priority above input_file)")
 @click.option('-o', '--output', default=None, type=str,
               help="Output content (Priority above output_file)")
-@click.option('-if', '--input_file', default=None, type=click.File(), help="Input file")
-@click.option('-of', '--output_file', default=None, type=click.File(), help="Output file")
-@click.option('-tf', '--testfile', default=None, type=str, help="data test file")
+@click.option('-I', '--input_file', default=None, type=click.File(), help="Input file")
+@click.option('-O', '--output_file', default=None, type=click.File(), help="Output file")
+@click.option('-t', '--testfile', default=None, type=str, help="data test file")
 def cli(input, output, input_file, output_file, testfile):
     in_content = ""
     out_content = ""
