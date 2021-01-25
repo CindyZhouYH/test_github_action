@@ -14,6 +14,8 @@ variables:
   OSS_NAME: oss
   OSS_RELEASE_ROOT: ${OSS_NAME}/releases/${CI_PROJECT_NAME}
   OSS_DEV_ROOT: ${OSS_NAME}/dev/${CI_PROJECT_NAME}
+  DEMO_ROOT: demo
+  DEMO_PATH: ${DEMO_ROOT}/test_demo
 
 before_script:
   - pip config set global.index-url "https://${PYPI_USERNAME}:${PYPI_PASSWORD}@${PYPI_HOST}/simple"
@@ -23,6 +25,11 @@ before_script:
   - curl -o /usr/bin/mc "${RELEASE_URL}/mc" && chmod +x /usr/bin/mc
   - mc --version
   - mc config host add ${OSS_NAME} "${OSS_URL}" "${OSS_ACCESS_ID}" "${OSS_ACCESS_TOKEN}"
+  - mkdir -p ${DEMO_ROOT} && cd ${DEMO_ROOT}
+    && for f in $(mc ls ${OSS_DEV_ROOT}/ | awk '{print $5}'); do mc cp ${OSS_DEV_ROOT}/$f $f; done
+    && for f in *.tar.gz; do tar -zxvf $f; done
+    && cd .. && tree -a ${DEMO_ROOT}
+
 
 unit_test_in_3.5.2:
   stage: unit_test
@@ -133,19 +140,8 @@ package_test_in_3.5.2:
     - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule -h
-    - echo -e "from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" > "test_main.py"
-    - echo -e "\n\twith load_with_args() as _iotuple:\n" >> "test_main.py"
-    - echo -e "\t\t_stdin, _stdout = _iotuple\n" >> "test_main.py"
-    - echo -e "\t\tresult_dump(True, data={\n" >> "test_main.py"
-    - echo -e "\t\t\t\"stdin\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdin,\n"  >> "test_main.py"
-    - echo -e "\t\t\t\"stdout\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdout,\n"  >> "test_main.py"
-    - echo -e "\t\t})\n" >> "test_main.py"
-    - cat test_main.py
-    - dcmodule -tf "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "input.txt" -o "output.txt"
 
 package_test_in_3.6.3:
   stage: package_install
@@ -162,19 +158,8 @@ package_test_in_3.6.3:
     - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule -h
-    - echo -e "from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" > "test_main.py"
-    - echo -e "\n\twith load_with_args() as _iotuple:\n" >> "test_main.py"
-    - echo -e "\t\t_stdin, _stdout = _iotuple\n" >> "test_main.py"
-    - echo -e "\t\tresult_dump(True, data={\n" >> "test_main.py"
-    - echo -e "\t\t\t\"stdin\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdin,\n"  >> "test_main.py"
-    - echo -e "\t\t\t\"stdout\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdout,\n"  >> "test_main.py"
-    - echo -e "\t\t})\n" >> "test_main.py"
-    - cat test_main.py
-    - dcmodule -tf "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "input.txt" -o "output.txt"
 
 package_test_in_3.7.6:
   stage: package_install
@@ -191,19 +176,9 @@ package_test_in_3.7.6:
     - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule -h
-    - echo -e "from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" > "test_main.py"
-    - echo -e "\n\twith load_with_args() as _iotuple:\n" >> "test_main.py"
-    - echo -e "\t\t_stdin, _stdout = _iotuple\n" >> "test_main.py"
-    - echo -e "\t\tresult_dump(True, data={\n" >> "test_main.py"
-    - echo -e "\t\t\t\"stdin\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdin,\n"  >> "test_main.py"
-    - echo -e "\t\t\t\"stdout\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdout,\n"  >> "test_main.py"
-    - echo -e "\t\t})\n" >> "test_main.py"
-    - cat test_main.py
-    - dcmodule -tf "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "input.txt" -o "output.txt"
+
 
 package_test_in_3.8.1:
   stage: package_install
@@ -220,19 +195,8 @@ package_test_in_3.8.1:
     - python3 -c "from dcmodule.configs.meta import __TITLE__;print(\"TITLE:\"+__TITLE__);"
     - dcmodule -v
     - dcmodule -h
-    - echo -e "from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" > "test_main.py"
-    - echo -e "\n\twith load_with_args() as _iotuple:\n" >> "test_main.py"
-    - echo -e "\t\t_stdin, _stdout = _iotuple\n" >> "test_main.py"
-    - echo -e "\t\tresult_dump(True, data={\n" >> "test_main.py"
-    - echo -e "\t\t\t\"stdin\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdin,\n"  >> "test_main.py"
-    - echo -e "\t\t\t\"stdout\"" >> "test_main.py"
-    - echo -e "\t\t\t:" >> "test_main.py"
-    - echo -e "\t\t\t\t_stdout,\n"  >> "test_main.py"
-    - echo -e "\t\t})\n" >> "test_main.py"
-    - cat test_main.py
     - dcmodule -t "test_main.py" -i "This is input" -o "This is output"
+    - dcmodule -t "test_main.py" -i "input.txt" -o "output.txt"
 
 deploy:
   stage: deploy
