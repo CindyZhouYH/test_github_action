@@ -7,21 +7,21 @@ file = os.path.dirname(__file__)
 @pytest.mark.unittest
 class TestInputParse:
     def test_parse_from_args_has(self):
-        fp = open(os.path.abspath(file) + "/test_main.py", "w+")
-        fp.write("from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" +
-                 "\n\twith load_with_args() as _iotuple:\n" +
-                 "\t\t_stdin, _stdout = _iotuple\n" +
-                 "\t\tresult_dump(True, data={\n" +
-                 "\t\t\t\"stdin\": _stdin,\n" +
-                 "\t\t\t\"stdout\": _stdout,\n" +
-                 "\t\t})\n")
-        fp.close()
-        fp = open(os.path.abspath(file) + "/input.txt", "w+")
-        fp.write("1 2 3")
-        fp.close()
-        fp = open(os.path.abspath(file) + "/output.txt", "w+")
-        fp.write("4 5 6")
-        fp.close()
+        with open(os.path.abspath(file) + "/test_main.py", "w+") as fp:
+            fp.write("from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" +
+                     "\n\twith load_with_args() as _iotuple:\n" +
+                     "\t\t_stdin, _stdout = _iotuple\n" +
+                     "\t\tresult_dump(True, data={\n" +
+                     "\t\t\t\"stdin\": _stdin,\n" +
+                     "\t\t\t\"stdout\": _stdout,\n" +
+                     "\t\t})\n")
+            fp.close()
+        with open(os.path.abspath(file) + "/input.txt", "w+") as fp:
+            fp.write("1 2 3")
+            fp.close()
+        with open(os.path.abspath(file) + "/output.txt", "w+") as fp:
+            fp.write("4 5 6")
+            fp.close()
         inputList1 = [os.path.abspath(file)+"/test_main.py",
                       "--stdin="+os.path.abspath(file)+"/input.txt",
                       "--stdout="+os.path.abspath(file)+"/output.txt"]
