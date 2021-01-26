@@ -28,6 +28,7 @@ setup(
     python_requires=">=3.5",
     install_requires=[
         'click>=7',
+        'where'
     ],
     tests_require=[
         'pytest>=3',
