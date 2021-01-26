@@ -3,8 +3,7 @@ import os
 import pytest
 from click.testing import CliRunner
 
-from dcmodule.configs.meta import __TITLE__
-from dcmodule.configs.meta import __VERSION__
+from dcmodule.configs.meta import __TITLE__, __VERSION__
 from dcmodule.entrance.cli import cli
 
 _INPUT_CONTENT_ = "1 2 3"
@@ -16,6 +15,16 @@ here = os.path.abspath(os.path.dirname(__file__))
 testfile = os.path.join(here, 'test_main.py')
 inputfile = os.path.join(here, _INPUT_FILE_)
 outputfile = os.path.join(here, _OUTPUT_FILE_)
+testfile_content = """
+from dcmodule import load_with_args, result_dump
+if __name__ == "__main__":
+    with load_with_args() as _iotuple:
+        _stdin, _stdout = _iotuple
+        result_dump(True, data={
+            "stdin": _stdin,
+            "stdout": _stdout,
+        })
+"""
 
 
 @pytest.mark.unittest
@@ -37,13 +46,7 @@ class TestCli:
 
     def test_cli_testfile(self):
         with open(testfile, "w+") as fp:
-            fp.write("from dcmodule import load_with_args, result_dump\nif __name__ == \"__main__\":" +
-                     "\n\twith load_with_args() as _iotuple:\n" +
-                     "\t\t_stdin, _stdout = _iotuple\n" +
-                     "\t\tresult_dump(True, data={\n" +
-                     "\t\t\t\"stdin\": _stdin,\n" +
-                     "\t\t\t\"stdout\": _stdout,\n" +
-                     "\t\t})\n")
+            fp.write(testfile_content)
             fp.close()
         with open(inputfile, "w+") as fp:
             fp.write(_INPUT_CONTENT_)
