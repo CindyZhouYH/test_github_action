@@ -53,18 +53,19 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
     #   )
 
 
-py_url = where.where("python3")
-py_prefix = "python3"
-if not len(py_url):
-    py_prefix = "python"
-
-DEFAULT_PREFIX = [py_prefix]
-DEFAULT_SUFFIX = []
+def get_py_prefix():
+    py_url = where.first("python3")
+    py_prefix = "python3"
+    if py_url is None:
+        py_url = where.first("python")
+        py_prefix = "python"
+        if py_url is None:
+            raise WindowsError
+    return py_prefix
 
 
 def execute_dcmodule(script: str, stdin: str, stdout: str or None,
-                     prefix: list = None, suffix: list = None,
-                     encoding=None, workdir=None, user=None, group=None):
+                     prefix: list = None, encoding=None, workdir=None, user=None, group=None):
     """
     执行dcmodule python脚本
     :param script: 脚本文件名
@@ -78,9 +79,9 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
     :param group: 运行使用的用户组名（缺省为不指定）
     :return: 解析得出的success, message, data
     """
+    DEFAULT_PREFIX = [get_py_prefix()]
     prefix = [str(_item) for _item in (prefix or DEFAULT_PREFIX)]
-    suffix = [str(_item) for _item in (suffix or DEFAULT_SUFFIX)]
-    args = prefix + [str(script)] + suffix
+    args = prefix + [str(script)]
 
     if stdin is not None:
         with NamedTemporaryFile(delete=False) as _file:
