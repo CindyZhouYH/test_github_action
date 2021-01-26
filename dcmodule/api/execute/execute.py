@@ -4,6 +4,8 @@ import subprocess
 import sys
 from tempfile import NamedTemporaryFile
 
+import where
+
 from .exception import InvalidOutputFormatException
 
 DEFAULT_ENCODING = "utf8"
@@ -42,17 +44,22 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
     )
     _stdout, _stderr = _process.communicate()
     _return_code = _process.returncode
-    #if _return_code == 0:
+    # if _return_code == 0:
     return _stdout.decode(encoding or DEFAULT_ENCODING)
-    #else:
-     #   raise InvalidReturnCodeException(
-     #       return_code=_return_code,
-     #       stdout=_stdout.decode(encoding or DEFAULT_ENCODING),
-     #       stderr=_stderr.decode(encoding or DEFAULT_ENCODING),
-     #   )
+    # else:
+    #   raise InvalidReturnCodeException(
+    #       return_code=_return_code,
+    #       stdout=_stdout.decode(encoding or DEFAULT_ENCODING),
+    #       stderr=_stderr.decode(encoding or DEFAULT_ENCODING),
+    #   )
 
 
-DEFAULT_PREFIX = ["python3"]
+py_url = where.where("python3")
+py_prefix = "python3"
+if not len(py_url):
+    py_prefix = "python"
+    
+DEFAULT_PREFIX = [py_prefix]
 DEFAULT_SUFFIX = []
 
 
@@ -83,7 +90,7 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
             if user or group:
                 _user = str(user) if user else None
                 _group = str(group) if group else None
-                #chown(_stdin_filename, _user, _group)
+                # chown(_stdin_filename, _user, _group)
                 sys.stderr.write("not support switch user")
         args += ["--stdin_file", _stdin_filename]
     else:
@@ -96,7 +103,7 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
             if user or group:
                 _user = str(user) if user else None
                 _group = str(group) if group else None
-                #chown(_stdout_filename, _user, _group)
+                # chown(_stdout_filename, _user, _group)
                 sys.stderr.write("not support switch user")
         args += ["--stdout_file", _stdout_filename]
     else:
@@ -111,10 +118,10 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
     )
 
     if _stdin_filename and os.path.exists(_stdin_filename):  # 清除输入临时文件
-        #chown(_stdin_filename, SystemUser.current().name, SystemGroup.current().name)
+        # chown(_stdin_filename, SystemUser.current().name, SystemGroup.current().name)
         os.remove(_stdin_filename)
     if _stdout_filename and os.path.exists(_stdout_filename):  # 清除输出临时文件
-        #chown(_stdout_filename, SystemUser.current().name, SystemGroup.current().name)
+        # chown(_stdout_filename, SystemUser.current().name, SystemGroup.current().name)
         os.remove(_stdout_filename)
 
     try:
