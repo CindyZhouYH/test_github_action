@@ -40,7 +40,6 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         cwd=workdir,
-        preexec_fn=_pre_execute_method,
     )
     _stdout, _stderr = _process.communicate()
     _return_code = _process.returncode
@@ -58,7 +57,7 @@ py_url = where.where("python3")
 py_prefix = "python3"
 if not len(py_url):
     py_prefix = "python"
-    
+
 DEFAULT_PREFIX = [py_prefix]
 DEFAULT_SUFFIX = []
 
