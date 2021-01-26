@@ -60,7 +60,7 @@ def get_py_prefix():
         py_url = where.first("python")
         py_prefix = "python"
         if py_url is None:
-            raise WindowsError
+            raise EnvironmentError
     return py_prefix
 
 
