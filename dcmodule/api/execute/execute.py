@@ -56,7 +56,7 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
 def get_py_prefix():
     py3_url = where.first("python3")
     py_url = where.first("python")
-    if py3_url or py_url is None:
+    if not (py3_url or py_url):
         raise EnvironmentError
     if py3_url or None:
         py_prefix = "python3"
@@ -79,7 +79,7 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
     :param group: 运行使用的用户组名（缺省为不指定）
     :return: 解析得出的success, message, data
     """
-    prefix = [str(_item) for _item in (prefix or get_py_prefix())]
+    prefix = [str(_item) for _item in (prefix or [get_py_prefix()])]
     args = prefix + [str(script)]
 
     if stdin is not None:
