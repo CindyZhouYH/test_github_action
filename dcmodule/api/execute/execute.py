@@ -54,15 +54,10 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
 
 
 def get_py_prefix():
-    py3_url = where.first("python3")
-    py_url = where.first("python")
-    if not (py3_url or py_url):
-        raise EnvironmentError
-    if py3_url or None:
-        py_prefix = "python3"
-    else:
-        py_prefix = "python"
-    return py_prefix
+    py = where.first("python") or where.first("python3")
+    if not py:
+        raise EnvironmentError("No python3 or python exec files were found")
+    return py
 
 
 def execute_dcmodule(script: str, stdin: str, stdout: str or None,
