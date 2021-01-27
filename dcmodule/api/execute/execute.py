@@ -56,7 +56,7 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
 def get_py_prefix():
     py = where.first("python") or where.first("python3")
     if not py:
-        raise EnvironmentError("No python3 or python exec files were found")
+        raise EnvironmentError("No python3 or python executive files were found.")
     return py
 
 
