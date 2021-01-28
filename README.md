@@ -4,6 +4,8 @@
 
 用于进行互测时输入数据合法性的检查。
 
+**该版本删除pysystem依赖，暂不支持用户切换**
+
 ## 安装
 
 ### 准备工作
@@ -117,3 +119,76 @@ python3 test_main.py --stdin="This is stdin." --stdout="This is stdout."
 
 更多关于load_with_args、result_dump的技术细节，可以查看源代码中的文档。
 
+#### 在命令行中使用
+
+##### 查看版本信息
+
+运行命令
+
+```
+dcmodule -v
+```
+
+即可得到当前版本信息。
+
+##### 调用测试文件
+
+测试文件样例为上文**test_main.py**
+
+若在命令中直接指定输入输出：
+
+运行命令
+
+```
+dcmodule --testfile="test_main.py" --input="This is input" --output="This is output"
+```
+
+或使用shortcut：
+
+```
+dcmodule -t "test_main.py" -i "This is input" -o "This is output"
+```
+
+得到输出
+
+```
+True
+Success!
+{'stdin': 'This is input', 'stdout': 'This is output'}
+```
+
+若在命令中指定含有输入输出的文件：
+
+运行命令
+
+```
+dcmodule --testfile="test_main.py" --input_file="input.txt" --output_file="output.txt"
+```
+
+或使用shortcut：
+
+```
+dcmodule -t "test_main.py" -I "input.txt" -O "output.txt"
+```
+
+得到输出
+
+```
+True
+Success!
+{'stdin': 'input.txt中的内容', 'stdout': 'output.txt中的内容'}
+```
+
+由于同时支持直接输入内容和文件读取，为防止冲突，指定优先级：
+
+input > input_file， output > output_file​
+
+##### 查看帮助
+
+运行命令
+
+```
+dcmodule -h
+```
+
+可查看帮助。包含相关参数、shortcut等详细描述。

@@ -1,11 +1,12 @@
 import json
 import os
 import subprocess
+import sys
 from tempfile import NamedTemporaryFile
 
-from pysystem import SystemGroup, SystemUser, chown
+import where
 
-from .exception import InvalidReturnCodeException, InvalidOutputFormatException
+from .exception import InvalidOutputFormatException
 
 DEFAULT_ENCODING = "utf8"
 
@@ -25,10 +26,7 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
         """
         切换用户
         """
-        if group is not None:
-            SystemGroup.loads(group).apply()
-        if user is not None:
-            SystemUser.loads(user).apply(include_group=not group)
+        # TODO: 加入pysystem依赖， 完善切换用户
 
     def _pre_execute_method():
         """
@@ -42,43 +40,42 @@ def _execute(args: list, encoding=None, workdir=None, user=None, group=None):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         cwd=workdir,
-        preexec_fn=_pre_execute_method,
     )
     _stdout, _stderr = _process.communicate()
     _return_code = _process.returncode
-    if _return_code == 0:
-        return _stdout.decode(encoding or DEFAULT_ENCODING)
-    else:
-        raise InvalidReturnCodeException(
-            return_code=_return_code,
-            stdout=_stdout.decode(encoding or DEFAULT_ENCODING),
-            stderr=_stderr.decode(encoding or DEFAULT_ENCODING),
-        )
+    # if _return_code == 0:
+    return _stdout.decode(encoding or DEFAULT_ENCODING)
+    # else:
+    #   raise InvalidReturnCodeException(
+    #       return_code=_return_code,
+    #       stdout=_stdout.decode(encoding or DEFAULT_ENCODING),
+    #       stderr=_stderr.decode(encoding or DEFAULT_ENCODING),
+    #   )
 
 
-DEFAULT_PREFIX = ["python3"]
-DEFAULT_SUFFIX = []
+def get_py_prefix():
+    py = where.first("python") or where.first("python3")
+    if not py:
+        raise EnvironmentError("No python3 or python executive files were found.")
+    return py
 
 
 def execute_dcmodule(script: str, stdin: str, stdout: str or None,
-                     prefix: list = None, suffix: list = None,
-                     encoding=None, workdir=None, user=None, group=None):
+                     prefix: list = None, encoding=None, workdir=None, user=None, group=None):
     """
     执行dcmodule python脚本
     :param script: 脚本文件名
     :param stdin: 标准输入内容
     :param stdout: 标准输出内容
     :param prefix: 前缀命令行内容（默认为["python3"]）
-    :param suffix: 后缀命令行内容（默认为[]）
     :param encoding: 编码格式（用于解析输出的json，默认为utf8）
     :param workdir: 工作路径（缺省为使用当前工作路径）
     :param user: 运行使用的用户名（缺省为不指定）
     :param group: 运行使用的用户组名（缺省为不指定）
     :return: 解析得出的success, message, data
     """
-    prefix = [str(_item) for _item in (prefix or DEFAULT_PREFIX)]
-    suffix = [str(_item) for _item in (suffix or DEFAULT_SUFFIX)]
-    args = prefix + [str(script)] + suffix
+    prefix = [str(_item) for _item in (prefix or [get_py_prefix()])]
+    args = prefix + [str(script)]
 
     if stdin is not None:
         with NamedTemporaryFile(delete=False) as _file:
@@ -87,7 +84,8 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
             if user or group:
                 _user = str(user) if user else None
                 _group = str(group) if group else None
-                chown(_stdin_filename, _user, _group)
+                # chown(_stdin_filename, _user, _group)
+                sys.stderr.write("not support switch user")
         args += ["--stdin_file", _stdin_filename]
     else:
         _stdin_filename = None
@@ -99,7 +97,8 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
             if user or group:
                 _user = str(user) if user else None
                 _group = str(group) if group else None
-                chown(_stdout_filename, _user, _group)
+                # chown(_stdout_filename, _user, _group)
+                sys.stderr.write("not support switch user")
         args += ["--stdout_file", _stdout_filename]
     else:
         _stdout_filename = None
@@ -113,10 +112,10 @@ def execute_dcmodule(script: str, stdin: str, stdout: str or None,
     )
 
     if _stdin_filename and os.path.exists(_stdin_filename):  # 清除输入临时文件
-        chown(_stdin_filename, SystemUser.current().name, SystemGroup.current().name)
+        # chown(_stdin_filename, SystemUser.current().name, SystemGroup.current().name)
         os.remove(_stdin_filename)
     if _stdout_filename and os.path.exists(_stdout_filename):  # 清除输出临时文件
-        chown(_stdout_filename, SystemUser.current().name, SystemGroup.current().name)
+        # chown(_stdout_filename, SystemUser.current().name, SystemGroup.current().name)
         os.remove(_stdout_filename)
 
     try:
