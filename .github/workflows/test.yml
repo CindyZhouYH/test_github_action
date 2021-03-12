@@ -37,6 +37,6 @@
             tree .
         - name: Start Unit Test
           run: |
-            - pytest --version
-            - pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=${{ matrix.min_coverage }}
+            pytest --version
+            pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=${{ matrix.min_coverage }}
       
