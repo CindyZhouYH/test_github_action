@@ -37,6 +37,11 @@
             tree .
         - name: Start Unit Test
           run: |
+            pip install -e .
             pytest --version
             pytest ./test
+        - name: Build package
+          run: |
+            pip install -e .
+            dcmodule -v
       
