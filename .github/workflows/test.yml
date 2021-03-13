@@ -14,8 +14,6 @@
             - 'ubuntu-18.04'
           python-version:
             - '3.7'
-          min_coverage:
-            - '90'
       steps:
         - uses: actions/checkout@v2
         - name: Set up Python ${{ matrix.python-version }}
@@ -39,7 +37,7 @@
           run: |
             pip install -e .
             pytest --version
-            pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under= ${{ matrix.min_coverage }}
+            pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under=90
         - name: Build package
           run: |
             pip install -e .
