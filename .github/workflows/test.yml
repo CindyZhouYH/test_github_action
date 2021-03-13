@@ -44,7 +44,7 @@
             dcmodule -v
         - name: Test function
           run: |
-            git clone git@github.com:CindyZhouYH/test_github_action_demo.git "demo"
+            git clone "https://github.com/CindyZhouYH/test_github_action_demo.git" "demo"
             cd demo
             dcmodule -t "test_main.py" -i "This is input" -o "This is output"
             dcmodule -t "test_main.py" -i "input.txt" -o "output.txt"
