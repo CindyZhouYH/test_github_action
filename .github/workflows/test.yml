@@ -39,7 +39,7 @@
           run: |
             pip install -e .
             pytest --version
-            pytest ./test
+            pytest ./test --cov-report term-missing --cov=./dcmodule -sv -m unittest --cov-fail-under= ${{ matrix.min_coverage }}
         - name: Build package
           run: |
             pip install -e .
